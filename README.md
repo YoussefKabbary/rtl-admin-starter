@@ -3,6 +3,11 @@
 A small admin dashboard starter for Arabic, right-to-left interfaces, built on
 FastAPI with a framework-free front end.
 
+> **Not the MGICO system.** This is a separate, newly written template with demo
+> data. It shares no code or data with the operations platform I built for MGICO,
+> which stays private — see the [MGICO showcase](https://github.com/YoussefKabbary/mgico-showcase)
+> for screenshots and an overview of that system.
+
 Most admin templates are left-to-right first. Setting `direction: rtl` on the
 body makes a page look Arabic, but the details stay broken: a version number or
 a file path inside an Arabic sentence pulls its punctuation to the wrong end,
@@ -108,7 +113,7 @@ docs/               screenshots
 I build operations software for Arabic-speaking teams who work on site, mostly
 from a phone. These are the patterns I kept rewriting at the start of each
 project, collected into one place. It is written from scratch and contains no
-client code or data.
+client code or data — in particular, none from the MGICO platform.
 
 ---
 
