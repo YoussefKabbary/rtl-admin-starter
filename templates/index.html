@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<!-- dir goes on <html>, not on <body>: the scrollbar side, the focus ring
+     order and text selection all follow the root element. A body-only rtl
+     produces a page that looks Arabic and reads wrong. -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>لوحة التحكم — rtl-admin-starter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/static/rtl.css">
+</head>
+<body>
+
+  <!-- شاشة الدخول -->
+  <section id="loginView" class="login">
+    <div class="panel">
+      <h2>تسجيل الدخول</h2>
+      <form id="loginForm" style="padding:16px">
+        <label class="field">
+          <span>اسم المستخدم</span>
+          <input id="username" autocomplete="username" required>
+        </label>
+        <label class="field">
+          <span>كلمة السر</span>
+          <input id="password" type="password" autocomplete="current-password" required>
+        </label>
+        <p class="error" id="loginError" role="alert"></p>
+        <button type="submit">دخول</button>
+        <p class="hint">للتجربة: <span class="mono">admin / admin123</span></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- التطبيق -->
+  <div id="appView" hidden>
+    <header class="topbar">
+      <span class="brand">لوحة التحكم</span>
+      <span class="spacer"></span>
+      <button id="contrastBtn" type="button" title="وضع الشمس">☀ تباين عالي</button>
+      <button id="logoutBtn" type="button">خروج</button>
+    </header>
+
+    <div class="app">
+      <nav class="side" aria-label="الأقسام">
+        <button type="button" aria-current="page">المخزن</button>
+        <button type="button">التقارير</button>
+        <button type="button">الإعدادات</button>
+      </nav>
+
+      <main class="panel">
+        <h2>الأصناف</h2>
+
+        <div class="toolbar">
+          <input id="search" type="search" placeholder="ابحث بالاسم أو التصنيف…"
+                 aria-label="بحث في الأصناف">
+          <span class="count" id="count"></span>
+        </div>
+
+        <div class="scroller">
+          <table id="table">
+            <thead>
+              <tr>
+                <th>الصنف</th>
+                <th>التصنيف</th>
+                <th class="num">الكمية</th>
+                <th>الحالة</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <button id="prev" type="button">السابق</button>
+          <span class="at" id="at"></span>
+          <button id="next" type="button">التالي</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+/* ===========================================================================
+   rtl-admin-starter — RTL-first stylesheet.
+
+   Three rules carry most of the weight here:
+
+   1. Logical properties everywhere (padding-inline-start, border-inline-end).
+      Physical left/right forces a mirrored copy of every rule for RTL.
+   2. Latin text inside Arabic gets `unicode-bidi: isolate` — not `embed`.
+      Without isolation, a version number or a file path inside an Arabic
+      sentence drags its punctuation to the wrong end.
+   3. Numbers use `font-variant-numeric: tabular-nums` so table columns line up
+      digit under digit instead of drifting.
+   =========================================================================== */
+
+:root {
+  --ground: #f2f5f4;
+  --surface: #ffffff;
+  --surface-2: #e9eeee;
+  --ink: #101d22;
+  --ink-2: #3b4f57;
+  --muted: #6b8189;
+  --rule: #dae2e3;
+  --brand: #0c2933;
+  --brand-ink: #dce8ea;
+  --accent: #0e8a7d;
+  --accent-soft: #ddf1ee;
+  --ok: #1e7a5a;
+  --warn: #8f5d00;
+  --warn-soft: #faf0da;
+  --danger: #a32b2b;
+  --radius: 10px;
+  --font-ui: "IBM Plex Sans Arabic", "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0c1315;
+    --surface: #141d20;
+    --surface-2: #1c2629;
+    --ink: #e7edec;
+    --ink-2: #b9c5c6;
+    --muted: #8a9a9d;
+    --rule: #263336;
+    --brand: #0a1f26;
+    --brand-ink: #d2e2e4;
+    --accent: #2aa898;
+    --accent-soft: #12332f;
+    --ok: #69c79e;
+    --warn: #e0a64c;
+    --warn-soft: #33280f;
+    --danger: #e08585;
+    color-scheme: dark;
+  }
+}
+
+/* Outdoor / high-contrast mode: a phone screen in direct sun loses every
+   subtle border. Opt-in, so it cannot leak into the normal theme. */
+:root[data-contrast="sun"] {
+  --ground: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f0f0f0;
+  --ink: #000000;
+  --ink-2: #000000;
+  --muted: #333333;
+  --rule: #000000;
+  --accent: #005f55;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Latin fragments inside Arabic prose. isolate, never embed. */
+code, .mono, .ltr {
+  font-family: var(--font-num);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+pre {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+  overflow-x: auto;
+}
+
+/* --- app bar ------------------------------------------------------------ */
+.topbar {
+  background: var(--brand);
+  color: var(--brand-ink);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+}
+.topbar .brand { font-weight: 700; color: #fff; }
+.topbar .spacer { flex: 1; }
+.topbar button {
+  background: transparent;
+  color: var(--brand-ink);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font: inherit;
+  cursor: pointer;
+  min-height: 36px;
+}
+
+/* --- layout ------------------------------------------------------------- */
+.app { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 16px; padding: 16px; }
+/* minmax(0, 1fr) and not 1fr: a grid track defaults to min-content, so one wide
+   table would stretch the whole page instead of scrolling inside its panel. */
+
+.side { display: flex; flex-direction: column; gap: 4px; }
+.side button {
+  text-align: start;
+  background: transparent;
+  border: 0;
+  border-inline-start: 3px solid transparent;
+  padding: 9px 12px;
+  font: inherit;
+  color: var(--ink-2);
+  border-radius: 8px;
+  cursor: pointer;
+  min-height: 40px;
+}
+.side button[aria-current="page"] {
+  background: var(--accent-soft);
+  border-inline-start-color: var(--accent);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  min-width: 0;
+  overflow: hidden;
+}
+.panel > h2 {
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 15px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* --- toolbar ------------------------------------------------------------ */
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; padding: 12px 16px; align-items: center; }
+.toolbar input[type="search"] {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  min-height: 40px;
+}
+.toolbar .count { color: var(--muted); font-size: 13px; }
+
+/* --- table -------------------------------------------------------------- */
+.scroller { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: start; padding: 10px 16px; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 600; font-size: 13px; background: var(--surface-2); }
+td.num, th.num { font-variant-numeric: tabular-nums; unicode-bidi: isolate; }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 12.5px;
+}
+.tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.tag.ok::before { background: var(--ok); }
+.tag.low::before { background: var(--warn); }
+.tag.out::before { background: var(--danger); }
+
+/* --- pager -------------------------------------------------------------- */
+.pager { display: flex; gap: 8px; align-items: center; justify-content: center; padding: 12px; }
+.pager button {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font: inherit;
+  cursor: pointer;
+  min-height: 40px;
+}
+.pager button[disabled] { opacity: 0.45; cursor: default; }
+.pager .at { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+/* --- login -------------------------------------------------------------- */
+.login { max-width: 340px; margin: 12vh auto; }
+.login .field { display: block; margin-bottom: 12px; }
+.login label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+.login input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  min-height: 44px;
+}
+.login button {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 11px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+}
+.error { color: var(--danger); font-size: 13.5px; min-height: 20px; }
+.hint { color: var(--muted); font-size: 12.5px; text-align: center; margin-top: 10px; }
+
+[hidden] { display: none !important; }
+/* [hidden] loses to any display rule with equal specificity, so it is stated
+   explicitly rather than trusted. */
+
+/* --- phone: the table becomes cards ------------------------------------- */
+@media (max-width: 620px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .side { flex-direction: row; overflow-x: auto; }
+  .side button { white-space: nowrap; border-inline-start: 0; border-bottom: 3px solid transparent; }
+  .side button[aria-current="page"] { border-bottom-color: var(--accent); }
+
+  thead { display: none; }
+  tr { display: block; border-bottom: 8px solid var(--ground); }
+  td {
+    display: grid;               /* grid, not flex: free text inside a flex box
+                                    becomes an anonymous item that shrinks to
+                                    its longest word and cannot take min-width */
+    grid-template-columns: 40% minmax(0, 1fr);
+    gap: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  td::before { content: attr(data-label); color: var(--muted); font-size: 13px; }
+  /* grid items stretch by default — a status pill would span the whole card */
+  td > * { justify-self: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
