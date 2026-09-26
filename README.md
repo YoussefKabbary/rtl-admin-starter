@@ -129,4 +129,4 @@ client code or data — in particular, none from the MGICO platform.
 
 ## License
 
-MIT
+© 2026 Youssef Kabbary. All rights reserved. See [LICENSE](LICENSE).
